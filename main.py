@@ -8,6 +8,7 @@ modulesPath = f"{Path(__file__).resolve().parent}/bin"
 sys.path.insert(0, modulesPath)
 
 from soc import Server_soc, Client_soc
+from critic import handle_error
 
 server = Server_soc()
 Client = Client_soc()

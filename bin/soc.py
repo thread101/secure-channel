@@ -5,7 +5,7 @@ from threading import Thread
 class Server_soc(Thread):
     def __init__(self, port=2222, *args, **kwags):
         # implement the setup here
-
+        
         super().__init__(*args, **kwags)
 
 
