@@ -17,6 +17,3 @@ class Client_soc(Thread):
         super().__init__(*args, **kwags)
 
 
-
-s = Server_soc()
-c = Client_soc()
