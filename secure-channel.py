@@ -118,6 +118,7 @@ def inputTerminal():
         printTerminal(text=msg, mode="sent")
         return msg
 
+
 # server specific functions
 @handle_error
 def send(client:socket.socket, msg:str):
