@@ -40,7 +40,7 @@ def printTerminal(text:str, mode:str="recv", title:str|None=None):
                 formated_text += f"+{'-'*x}+\n"
 
             else:
-                formated_text += f"{' '*padding_left}@{'-'*x}+\n"
+                formated_text += f"{' '*padding_left}+{'-'*x}@\n"
                 formated_text += f"{' '*padding_left}| {text}{' '*(x-len(text)-1)}|\n"
                 formated_text += f"{' '*padding_left}+{'-'*x}+\n"
 

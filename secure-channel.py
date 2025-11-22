@@ -30,8 +30,9 @@ def printTerminal(text:str, mode:str="recv", title:str|None=None):
                 recv --> printing received text
                 sent --> printing sent text
     '''
+    global timeStamp, tym
     terminal_length = os.get_terminal_size().columns
-    format_ratio = 0.55
+    format_ratio = 0.7
     formated_text = ""
 
     if len(text) == 0:
@@ -61,7 +62,7 @@ def printTerminal(text:str, mode:str="recv", title:str|None=None):
                 formated_text += f"+{'-'*x}+\n"
 
             else:
-                formated_text += f"{' '*padding_left}@{'-'*x}+\n"
+                formated_text += f"{' '*padding_left}+{'-'*x}@\n"
                 formated_text += f"{' '*padding_left}| {text}{' '*(x-len(text)-1)}|\n"
                 formated_text += f"{' '*padding_left}+{'-'*x}+\n"
 
@@ -100,6 +101,10 @@ def printTerminal(text:str, mode:str="recv", title:str|None=None):
                 formated_text += f"{' '*padding_left}{line} {' '*(x-len(line))}|\n"
                 formated_text += f"{' '*padding_left}+{'-'*x}+\n"
 
+        if timeStamp:
+            t = tym()
+            formated_text += f"{t}\n" if mode == "recv" else f"{' '*(terminal_length-len(t))}{t}\n"
+
     print(f"\r{formated_text}\ntype: ", end=" ")
     
 def inputTerminal():
@@ -137,13 +142,13 @@ def receiver(client:socket.socket):
 
         printTerminal(text=msg, mode="recv")
 
-def server(port:int=2222):
+def server(port:int=8000):
     global tym
 
     s = socket.socket()
     s.bind(("", port))
 
-    printTerminal(text="Waiting foe connection...", title="Log")
+    printTerminal(text="Waiting for connection...", title="Log")
     s.listen(1)
 
     client = s.accept()[0]
@@ -180,7 +185,7 @@ def c_receiver(server:socket.socket):
 
         printTerminal(text=msg, mode="recv")
 
-def client(ip:str="", port:int=2222):
+def client(ip:str="", port:int=8000):
     global tym
 
     c = socket.socket()
@@ -203,17 +208,22 @@ def client(ip:str="", port:int=2222):
             printTerminal(text=r, title="Error")
 
 if __name__ == "__main__":
-    
+    timeStamp = False
     try:
         mode = sys.argv[1]
+        try:
+            timeStamp = bool(sys.argv[2])
+
+        except IndexError:
+            pass
     
     except IndexError:
-        mode = input("input the mode [s] --> server [c] --> client: ")
+        mode = input("input the mode\n\t[s] (server) \n\t[c] (client)\n>>> ")
 
     if "s" in mode:
-        print("server mode initiated")
+        printTerminal(text="server mode initiated", title="Log")
         server()
 
     else:
-        print("client mode initiated")
+        printTerminal(text="client mode initiated", title="Log")
         client()
